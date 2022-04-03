@@ -1,0 +1,173 @@
+<head>
+    <style>
+        body {
+            margin: 0;
+            position: absolute;
+            inset-inline: 5vw;
+            height: 100%;
+            display: grid;
+            gap: min(2rem, 4vw, 4vh);
+            align-content: center;
+            justify-content: center;
+            background: #000d;
+            text-align: center;
+        }
+        
+        body * {
+            font-size: 2rem;
+            font-family: monospace;
+            color: #fff;
+        }
+
+        div {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: 1fr;
+            column-gap: min(2rem, 5vw, 5vh);
+            row-gap: min(1rem, 3vw, 3vh);
+            justify-content: center;
+            justify-items: center;
+        }
+
+        span {
+            width: max-content;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+        }
+
+        #correct {
+            font-size: 3rem;
+        }
+
+        #scores {
+            grid-auto-columns: max-content;
+        }
+
+        #switch-mode {
+            padding-block: min(1rem, 2vh);
+            background: black;
+            cursor: pointer;
+        }
+
+        #color-text,
+        #color-text>* {
+            width: 100%;
+        }
+
+        @media (min-height: 40rem) {
+            #color-text {
+                grid-auto-flow: row;
+            }
+        }
+
+        #colors>button {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            width: min(15rem, 27vw, 27vh);
+        }
+
+        #colors>button:focus {
+            outline: .5rem solid #000;
+        }
+    </style>
+</head>
+
+<body onload="reset()">
+    <div id="colors">
+        <button></button>
+        <button></button>
+        <button></button>
+    </div>
+    <div id="color-text">
+        <span id="correct"></span>
+        <button id="switch-mode" onclick="reset(true)">mode: <span id="mode-type"></span></button>
+    </div>
+    <div id="scores">
+        <span>Score: <span id="score"></span></span>
+        <span>Highscore: <span id="highscore"></span></span>
+    </div>
+</body>
+
+<script>
+    const modes = [
+        values => `#${values.map(x => x.toString(16).padStart(2, '0')).join('')}`,
+        values => `rgb(${values.join(', ')})`,
+        values => [rgbToHsl(values)].map(([h, s, l]) => `hsl(${h}, ${s}%, ${l}%)`)[0],
+    ].reverse()
+
+    const colors = document.querySelectorAll('#colors > button')
+    const modeType = document.querySelector('#mode-type')
+    const correct = document.querySelector('#correct')
+    const score = document.querySelector('#score')
+    const highscore = document.querySelector('#highscore')
+    const newGame = {
+        score: 0,
+        highscore: 0,
+        colors: [],
+        mode: modes.length - 1,
+    }
+    let game = { ...newGame };
+
+    function randomPart() { return Math.floor(Math.random() * 256) }
+    function randomColor() { return modes[game.mode](new Array(3).fill(0).map(() => randomPart())) }
+
+    function reset(switchMode) {
+        if (switchMode) {
+            game.mode = (game.mode || modes.length) - 1
+        }
+        game.score = 0
+        game = { ...newGame, mode: game.mode }
+        modeType.innerHTML = ['hsl', 'rgb', 'hex'][game.mode]
+        next()
+    }
+    function next() {
+        document.querySelector('#colors>:focus')?.blur()
+        game.colors = new Array(3).fill(0).map(() => randomColor())
+        game.chosen = Math.floor(Math.random() * game.colors.length);
+        colors.forEach((c, i) => {
+            c.style.backgroundColor = game.colors[i];
+            if (i === game.chosen) {
+                c.onclick = () => {
+                    game.score++
+                    score.innerHTML = game.score
+                    game.highscore = Math.max(game.score, game.highscore)
+                    highscore.innerHTML = game.highscore
+                    next()
+                }
+            }
+            else {
+                c.onclick = () => {
+                    game.score = 0
+                    next()
+                }
+            }
+        })
+        correct.innerHTML = game.colors[game.chosen]
+        score.innerHTML = game.score
+        highscore.innerHTML = game.highscore
+    }
+
+
+    const rgbToHsl = ([r, g, b]) => {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        const l = Math.max(r, g, b);
+        const s = l - Math.min(r, g, b);
+        const h = s
+            ? l === r
+                ? (g - b) / s
+                : l === g
+                    ? 2 + (b - r) / s
+                    : 4 + (r - g) / s
+            : 0;
+        return [
+            60 * h < 0 ? 60 * h + 360 : 60 * h,
+            100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
+            (100 * (2 * l - s)) / 2,
+        ].map(Math.round)
+    }
+</script>
