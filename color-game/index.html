@@ -38,7 +38,7 @@
             cursor: pointer;
             padding-block: calc(var(--unit) * 2);
         }
-        
+
 
         #colors>button {
             aspect-ratio: 1;
@@ -95,51 +95,60 @@
         window.localStorage.setItem(key, JSON.stringify(value))
     }
 
-    const modes = [
-        values => `#${values.map(x => x.toString(16).padStart(2, '0')).join('')}`,
-        values => `rgb(${values.join(', ')})`,
-        values => [rgbToHsl(values)].map(([h, s, l]) => `hsl(${h}, ${s}%, ${l}%)`)[0],
-    ].reverse()
-
-    const blankHighscore = new Array(modes.length).fill(0)
+    const colorNames = 'AliceBlue,AntiqueWhite,Aqua,Aquamarine,Azure,Beige,Bisque,Black,BlanchedAlmond,Blue,BlueViolet,Brown,BurlyWood,CadetBlue,Chartreuse,Chocolate,Coral,CornflowerBlue,Cornsilk,Crimson,Cyan,DarkBlue,DarkCyan,DarkGoldenRod,DarkGray,DarkGreen,DarkGrey,DarkKhaki,DarkMagenta,DarkOliveGreen,DarkOrange,DarkOrchid,DarkRed,DarkSalmon,DarkSeaGreen,DarkSlateBlue,DarkSlateGray,DarkSlateGrey,DarkTurquoise,DarkViolet,DeepPink,DeepSkyBlue,DimGray,DimGrey,DodgerBlue,FireBrick,FloralWhite,ForestGreen,Fuchsia,Gainsboro,GhostWhite,Gold,Goldenrod,Gray,Green,GreenYellow,Grey,HoneyDew,HotPink,IndianRed,Indigo,Ivory,Khaki,Lavender,LavenderBlush,LawnGreen,LemonChiffon,LightBlue,LightCoral,LightCyan,LightGoldenRodYellow,LightGray,LightGreen,LightGrey,LightPink,LightSalmon,LightSeaGreen,LightSkyBlue,LightSlateGray,LightSlateGrey,LightSteelBlue,LightYellow,Lime,LimeGreen,Linen,Magenta,Maroon,MediumAquaMarine,MediumBlue,MediumOrchid,MediumPurple,MediumSeaGreen,MediumSlateBlue,MediumSpringGreen,MediumTurquoise,MediumVioletRed,MidnightBlue,MintCream,MistyRose,Moccasin,NavajoWhite,Navy,OldLace,Olive,OliveDrab,Orange,OrangeRed,Orchid,PaleGoldenRod,PaleGreen,PaleTurquoise,PaleVioletRed,PapayaWhip,PeachPuff,Peru,Pink,Plum,PowderBlue,Purple,RebeccaPurple,Red,RosyBrown,RoyalBlue,SaddleBrown,Salmon,SandyBrown,SeaGreen,SeaShell,Sienna,Silver,SkyBlue,SlateBlue,SlateGray,SlateGrey,Snow,SpringGreen,SteelBlue,Tan,Teal,Thistle,Tomato,Turquoise,Violet,Wheat,White,WhiteSmoke,Yellow,YellowGreen'.split(',')
+    const rgbValues = () => [256, 256, 256].map(x => Math.floor(Math.random() * x))
+    const hslValues = () => [360, 100, 100].map(x => Math.floor(Math.random() * x))
+    const modes = {
+        hex: () => `#${rgbValues().map(x => x.toString(16).padStart(2, '0')).join('')}`,
+        rgb: () => `rgb(${rgbValues().join(', ')})`,
+        hsl: () => [hslValues()].map(([h, s, l]) => `hsl(${h}, ${s}%, ${l}%)`)[0],
+        names: () => colorNames[Math.floor(Math.random() * colorNames.length)],
+    }
+    const modeNames = Object.keys(modes)
     const colors = document.querySelectorAll('#colors > button')
     const modeType = document.querySelector('#mode-type')
     const correct = document.querySelector('#correct')
     const score = document.querySelector('#score')
     const highscore = document.querySelector('#highscore')
+    const blankHighscore = Object.keys(modes).reduce((a, c) => ({ ...a, c: 0 }), {})
+
+
     const newGame = {
         score: 0,
         highscore: loadResource(
             'highscore',
-            [...blankHighscore],
-            x => x.length === modes.length,
+            {},
+            x => x !== undefined,
         ),
         colors: [],
-        mode: loadResource('mode', modes.length - 1),
+        mode: loadResource('mode', modeNames[0]),
     }
     let game = { ...newGame }
 
-    function randomPart() { return Math.floor(Math.random() * 256) }
-    function randomColor() { return modes[game.mode](new Array(3).fill(0).map(() => randomPart())) }
-
     function reset(switchMode) {
         if (switchMode) {
-            game.mode = (game.mode || modes.length) - 1
+            const nextIndex = (modeNames.indexOf(game.mode) + 1) % modeNames.length
+            game.mode = modeNames[nextIndex]
             saveResource('mode', game.mode)
         }
         game.score = 0
-        modeType.innerHTML = ['hsl', 'rgb', 'hex'][game.mode]
+        modeType.innerHTML = game.mode
         next()
     }
     function next() {
         document.querySelector('#colors>:focus')?.blur()
-        game.colors = new Array(3).fill(0).map(() => randomColor())
+        const colorSet = new Set()
+        while (colorSet.size < 3) {
+            colorSet.add(modes[game.mode]())
+        }
+        game.colors = [...colorSet]
         game.chosen = Math.floor(Math.random() * game.colors.length);
         colors.forEach((c, i) => {
             c.style.backgroundColor = game.colors[i];
             if (i === game.chosen) {
                 c.onclick = () => {
                     game.score++
+                    if (!game.highscore[game.mode]) game.highscore[game.mode] = 0
                     game.highscore[game.mode] = Math.max(game.score, game.highscore[game.mode])
                     saveResource('highscore', game.highscore)
                     next()
@@ -154,7 +163,7 @@
         })
         correct.innerHTML = game.colors[game.chosen]
         score.innerHTML = game.score
-        highscore.innerHTML = game.highscore[game.mode]
+        highscore.innerHTML = game.highscore[game.mode] || 0
     }
 
     function resetHighscore() {
@@ -163,25 +172,5 @@
         game.highscore[game.mode] = 0
         highscore.innerHTML = game.highscore[game.mode]
         saveResource('highscore', game.highscore)
-    }
-
-    const rgbToHsl = ([r, g, b]) => {
-        r /= 255;
-        g /= 255;
-        b /= 255;
-        const l = Math.max(r, g, b);
-        const s = l - Math.min(r, g, b);
-        const h = s
-            ? l === r
-                ? (g - b) / s
-                : l === g
-                    ? 2 + (b - r) / s
-                    : 4 + (r - g) / s
-            : 0;
-        return [
-            60 * h < 0 ? 60 * h + 360 : 60 * h,
-            100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
-            (100 * (2 * l - s)) / 2,
-        ].map(Math.round)
     }
 </script>
