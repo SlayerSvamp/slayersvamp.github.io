@@ -22,7 +22,8 @@
     setTimeout(() => {
         input = document.querySelector('#input')
         uncle = document.querySelector('#uncle')
-        input.innerHTML = window.localStorage.getItem('textarea') ?? ''
+        text = window.localStorage.getItem('textarea') ?? ''
+        input.innerHTML = text
         textarea_resize()
 
     }, 0)
@@ -31,7 +32,7 @@
 <div id="app">
     <div class="image-box">
         <div>
-            <h1><a href="https://disney.fandom.com/wiki/Dr._Jekyll_%26_Mr._McDuck">$$$$ Farbror Plånbok $$$$</a></h1>
+            <h1><a href="https://disney.fandom.com/wiki/Dr._Jekyll_%26_Mr._McDuck">$$$ Farbror Plånbok $$$</a></h1>
             <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
             <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
             <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
@@ -45,7 +46,7 @@
         <img src="uncle-moneybags.png" id="image" />
     </div>
     <div class="grid">
-        <textarea id="input" oninput="textarea_input()" placeholder="Adam
+        <textarea id="input" oninput="textarea_input()" spellcheck="false" placeholder="Adam
 Bdam
 Cdam"></textarea>
         <div>
@@ -57,7 +58,6 @@ Cdam"></textarea>
 
 <style>
     * {
-        font-family: Arial, Helvetica, sans-serif;
         box-sizing: border-box;
         margin: 0;
     }
@@ -69,11 +69,20 @@ Cdam"></textarea>
         place-items: center;
         place-content: center;
         line-height: 3.7rem;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     #app {
-        display: flex;
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: 1fr;
         gap: 4rem;
+    }
+
+    @media (max-width: 1024px) {
+        #app {
+            grid-auto-flow: row;
+        }
     }
 
     a,
@@ -91,7 +100,7 @@ Cdam"></textarea>
     textarea {
         padding: 1rem;
         margin-top: 1.5rem;
-        width: 25rem;
+        width: 100%;
         background-color: transparent;
         border-color: gold;
         border-radius: .2rem;
@@ -114,9 +123,11 @@ Cdam"></textarea>
     }
 
     .image-box {
+        width: max-content;
         display: grid;
         place-content: center;
         place-items: center;
+        font-family: 'Courier New', Courier, monospace;
 
     }
 
