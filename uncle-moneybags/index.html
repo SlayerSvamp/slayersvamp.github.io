@@ -1,0 +1,126 @@
+<script>
+    let input = undefined
+    let personer_text = window.localStorage.getItem('textarea') ?? ''
+    const resize_textarea = () => {
+        input.style.height = "5px"
+        input.style.height = (input.scrollHeight) + "px"
+    }
+    const textarea_input = () => {
+        resize_textarea()
+        personer_text = input.value
+        window.localStorage.setItem('textarea', input.value)
+    }
+    const sample = (items) => items[Math.floor(Math.random() * items.length)]
+    const set_uncle = () => {
+        const personer = personer_text.replace('\r', '').split('\n')
+        document.querySelector('#uncle').innerHTML = sample(personer)
+    }
+    setTimeout(() => {
+        input = document.querySelector('#input')
+        input.innerHTML = personer_text
+        resize_textarea()
+
+    }, 0)
+</script>
+
+<div id="app">
+    <div class="image-box">
+        <div>
+            <h1><a href="https://disney.fandom.com/wiki/Dr._Jekyll_%26_Mr._McDuck">$$$$ Farbror Plånbok $$$$</a></h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+            <h1>$$$$$$$$$$$$$$$$$$$$$$$</h1>
+        </div>
+        <img src="uncle-moneybags.png" id="image" />
+    </div>
+    <div class="grid">
+        <textarea id="input" oninput="textarea_input()" placeholder="Adam
+Bdam
+Cdam"></textarea>
+        <div>
+            <button onclick="set_uncle()">Vem är Farbror Plånbok?</button>
+        </div>
+        <div id="uncle"></div>
+    </div>
+</div>
+
+<style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    body {
+        background-color: black;
+        color: gold;
+        display: flex;
+        place-items: center;
+        place-content: center;
+        line-height: 3.7rem;
+    }
+
+    #app {
+        display: flex;
+        gap: 4rem;
+    }
+
+    a,
+    button {
+        color: gold;
+        text-decoration: none;
+        background: transparent;
+    }
+
+    button {
+        border: none;
+        font-size: inherit;
+    }
+
+    textarea {
+        padding: 1rem;
+        margin-top: 1.5rem;
+        width: 25rem;
+        background-color: transparent;
+        border-color: gold;
+        border-radius: .2rem;
+        font-size: 2rem;
+        min-height: 9.2rem;
+        color: gold;
+        overflow: hidden;
+    }
+
+    .grid {
+        display: grid;
+        gap: 1rem;
+        align-items: start;
+        align-content: start;
+    }
+
+    #uncle {
+        font-size: 3rem;
+        color: greenyellow;
+    }
+
+    .image-box {
+        display: grid;
+        place-content: center;
+        place-items: center;
+
+    }
+
+    .image-box>* {
+        grid-area: 1 / 1 / -1 / -1;
+    }
+
+    .image-box>img {
+        position: relative;
+        top: -.2rem;
+    }
+</style>

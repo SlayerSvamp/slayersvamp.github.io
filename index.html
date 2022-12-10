@@ -1,40 +1,40 @@
+<div id="app">
+    <div>Min version av <a href="color-game">färg-spelet</a></div>
+    <div>Slumpa vem som blir <a href="uncle-moneybags">Farbror Plånbok</a></div>
+    <div>Vue-app med lösningar för <a href="AdventOfCode2022">Advent of Code 2022</a></div>
+</div>
+
+
 <style>
-    body {
+    * {
+        box-sizing: border-box;
         margin: 0;
-        position: absolute;
-        inset: min(5rem, 20vh);
-        display: grid;
-        gap: 1rem;
-        align-content: start;
-        align-items: start;
-        justify-content: center;
-        justify-items: start;
-        font-size: 1.5rem;
-        background-color: #000d;
+    }
+
+    body {
+        display: flex;
+        place-items: center;
+        place-content: center;
+        background-color: #012;
+        font-size: 1.6rem;
         color: #fff;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 
+    #app {
+        display: grid;
+        gap: 1rem;
+    }
+
     a {
-        text-decoration: none;
         font-style: italic;
+        color: #cdf;
+        
+        text-decoration: none;
         display: inline-block;
-        height: max-content;
-        width: max-content;
-        box-sizing: border-box;
         padding: .1rem .4rem .2rem;
         border-radius: .5rem;
-        color: #cdf;
         background-image: linear-gradient(#0cf4, #0094);
-        
         box-shadow: 0 0 0 .1rem #cdf inset;
     }
 </style>
-
-<body>
-    <span>Maybe something will be here in the future...?</span>
-    <span>
-        Well, doesn't matter.
-        You're probably here to play the <a href="color-game">color-game</a>, anyway.
-    </span>
-</body>
