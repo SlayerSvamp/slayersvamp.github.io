@@ -1,24 +1,26 @@
 <script>
     let input = undefined
-    let personer_text = window.localStorage.getItem('textarea') ?? ''
-    const resize_textarea = () => {
+    let uncle = undefined
+    const resize = () => {
         input.style.height = "5px"
         input.style.height = (input.scrollHeight) + "px"
     }
-    const textarea_input = () => {
-        resize_textarea()
-        personer_text = input.value
+    const oninput = () => {
+        resize()
         window.localStorage.setItem('textarea', input.value)
     }
-    const sample = (items) => items[Math.floor(Math.random() * items.length)]
     const set_uncle = () => {
-        const personer = personer_text.replace('\r', '').split('\n')
-        document.querySelector('#uncle').innerHTML = sample(personer)
+        const personer = input.innerHTML
+            .split('\n')
+            .map(x => x.trim())
+            .filter(x => x.length)
+        uncle.innerHTML = personer[Math.floor(Math.random() * personer.length)]
     }
     setTimeout(() => {
         input = document.querySelector('#input')
-        input.innerHTML = personer_text
-        resize_textarea()
+        uncle = document.querySelector('#uncle')
+        input.innerHTML = window.localStorage.getItem('textarea') ?? ''
+        resize()
 
     }, 0)
 </script>
@@ -40,7 +42,7 @@
         <img src="uncle-moneybags.png" id="image" />
     </div>
     <div class="grid">
-        <textarea id="input" oninput="textarea_input()" placeholder="Adam
+        <textarea id="input" oninput="oninput()" placeholder="Adam
 Bdam
 Cdam"></textarea>
         <div>
