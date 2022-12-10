@@ -1,26 +1,29 @@
 <script>
     let input = undefined
     let uncle = undefined
-    const resize = () => {
+    let text = ''
+    const textarea_resize = () => {
         input.style.height = "5px"
         input.style.height = (input.scrollHeight) + "px"
     }
-    const oninput = () => {
-        resize()
-        window.localStorage.setItem('textarea', input.value)
+    const textarea_input = () => {
+        textarea_resize()
+        text = input.value
+        window.localStorage.setItem('textarea', text)
     }
     const set_uncle = () => {
-        const personer = input.innerHTML
+        const personer = text
             .split('\n')
             .map(x => x.trim())
             .filter(x => x.length)
-        uncle.innerHTML = personer[Math.floor(Math.random() * personer.length)]
+        if (personer.length)
+            uncle.innerHTML = personer[Math.floor(Math.random() * personer.length)]
     }
     setTimeout(() => {
         input = document.querySelector('#input')
         uncle = document.querySelector('#uncle')
         input.innerHTML = window.localStorage.getItem('textarea') ?? ''
-        resize()
+        textarea_resize()
 
     }, 0)
 </script>
@@ -42,7 +45,7 @@
         <img src="uncle-moneybags.png" id="image" />
     </div>
     <div class="grid">
-        <textarea id="input" oninput="oninput()" placeholder="Adam
+        <textarea id="input" oninput="textarea_input()" placeholder="Adam
 Bdam
 Cdam"></textarea>
         <div>
