@@ -1,0 +1,131 @@
+<head>
+    <title>Linuslimpa</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="header">
+            <h1>Linus filmjölkslimpa</h1>
+        </div>
+        <div class="ingredienser">
+            <h2>Ingredienser</h2>
+            <h3>Torra</h3>
+            <div class="list">
+                <span>Vetemjöl</span><span>3 dl</span>
+                <span>Grahamsmjöl</span><span>2 dl</span>
+                <span>Havregryn</span><span>2 dl</span>
+                <span>Linfrön</span><span>1 dl</span>
+                <span>Solroskärnor</span><span>1 dl</span>
+                <span>Pumpakärnor</span><span>1 dl</span>
+                <span>Torkade tranbär</span><span>1 dl</span>
+                <span>Bikarbonat</span><span>2 tsk</span>
+                <span>Salt</span><span>1.5 tsk</span>
+            </div>
+            <h3>Blöta</h3>
+            <div class="list">
+                <span>Fil</span><span>450-500g</span>
+                <span>spanngonsylt</span><span>100g (1 dl)</span>
+                <span>Mörk sirap</span><span>140g (1 dl)</span>
+            </div>
+        </div>
+        <div class="Instruktioner">
+            <h2>Instruktioner</h2>
+            <ul>
+                <li>Sätt ugnen på 200 &deg;C varmluft och sätt gallret längst ner</li>
+                <li>Smöra en 1.5 liters brödform</li>
+                <li>Blanda alla torra ingredienser i en bunke</li>
+                <li>Vänta till ugnen är varm</li>
+                <li>Häll i alla blöta ingredienser och rör ner i det torra</li>
+                <li>Häll upp smeten i den smörade formen</li>
+                <li>Strössla havregryn uppe på smeten</li>
+                <li>Ställ in brödformen längst ner i ugnen och grädda i 50 minuter</li>
+                <li>Ta ut brödet ur ugnen och låt svalna under bakhandduk</li>
+            </ul>
+        </div>
+        <div class="tips">
+            <h4>Tips</h4>
+            <ul>
+                <li>För glutenfritt, ersätt vetemjöl med mjölmix och grahamsmjöl med skrädmjöl (eller även detta med
+                    mjölmix).
+                </li>
+                <li>Mjöl och havregryn går att byta ut hur man vill. Prova dig fram.</li>
+                <li>Byt ut tranbär mot aprikoser, russin eller liknande.</li>
+                <li>Toppa med havssalt.</li>
+                <li>Om brödet är för sött, halvera sirapsmängden.</li>
+                <li>Brödet är jättegott med smör när det fortfarande är varmt. (Det tar tid att svalna, så det är
+                    inte
+                    bråttom.)
+                </li>
+                <li>Bikarbonat och bakpulver är inte samma sak. Om du bara har bakpulver måste mängden dubbleras.
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        display: relative;
+    }
+
+    ul {
+        display: grid;
+        gap: .5rem;
+    }
+
+    ul>li {
+        list-style: none;
+    }
+
+    .list {
+        display: grid;
+        gap: .5rem 1rem;
+        grid-template-columns: max-content 1fr;
+    }
+
+
+    .ingredienser,
+    .instruktioner,
+    .tips {
+        display: grid;
+        gap: 1rem;
+        align-content: start;
+    }
+
+    body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        background-color: beige;
+        color: #210;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    #app {
+        display: grid;
+        gap: 2rem 1rem;
+    }
+
+    @media(min-width: 800px) {
+        #app {
+            justify-items: center;
+        }
+
+        .header,
+        .tips {
+            /* text-align: center; */
+            grid-column: 1/3;
+        }
+
+        .ingredienser {
+            grid-column: 1/2;
+        }
+
+        .instruktioner {
+            grid-column: 2/3;
+        }
+    }
+</style>
