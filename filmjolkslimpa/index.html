@@ -66,11 +66,16 @@
         src: url(fonts/Ranade-Regular.woff2);
     }
 
+    @font-face {
+        font-family: Ranade;
+        src: url(fonts/Ranade-LightItalic.woff2);
+        font-style: italic;
+    }
+
     * {
         margin: 0;
         padding: 0;
         display: relative;
-        font-family: Ranade;
     }
 
     ul {
@@ -89,9 +94,9 @@
     }
 
     body {
+        font-family: Ranade;
         color: #332200;
         display: flex;
-        padding: 1rem;
         align-items: center;
         justify-content: center;
         background: url(lingon.avif);
@@ -104,9 +109,8 @@
         display: grid;
         gap: 2rem 3rem;
         background-color: #f5f5dccc;
-        padding: 2rem;
+        padding: 1.25rem;
         box-sizing: border-box;
-        border-radius: .3rem;
     }
 
     #app>div {
@@ -115,12 +119,22 @@
         align-content: start;
     }
 
+    .tips>div {
+        font-style: italic;
+    }
+
     @media(min-width: 640px) {
+
+        body {
+            padding: 1rem;
+        }
 
         #app {
             justify-items: center;
             margin: 0;
+            padding: 2rem;
             grid-template-columns: max-content 1fr;
+            border-radius: .3rem;
         }
 
         .header,
