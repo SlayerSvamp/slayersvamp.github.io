@@ -31,44 +31,46 @@
         </div>
         <div class="Instruktioner">
             <h2>Instruktioner</h2>
-            <ul>
-                <li>Sätt ugnen på 200 &deg;C varmluft och sätt gallret längst ner</li>
-                <li>Smöra en 1.5 liters brödform</li>
-                <li>Blanda alla torra ingredienser i en bunke</li>
-                <li>Vänta till ugnen är varm</li>
-                <li>Häll i alla blöta ingredienser och rör ner i det torra</li>
-                <li>Häll upp smeten i den smörade formen</li>
-                <li>Strössla havregryn uppe på smeten</li>
-                <li>Ställ in brödformen längst ner i ugnen och grädda i 50 minuter</li>
-                <li>Ta ut brödet ur ugnen och låt svalna under bakhandduk</li>
-            </ul>
+            <div>Sätt ugnen på 200 &deg;C varmluft och sätt gallret längst ner</div>
+            <div>Smöra en 1.5 liters brödform</div>
+            <div>Blanda alla torra ingredienser i en bunke</div>
+            <div>Vänta till ugnen är varm</div>
+            <div>Häll i alla blöta ingredienser och rör ner i det torra</div>
+            <div>Häll upp smeten i den smörade formen</div>
+            <div>Strössla havregryn uppe på smeten</div>
+            <div>Ställ in brödformen längst ner i ugnen och grädda i 50 minuter</div>
+            <div>Ta ut brödet ur ugnen och låt svalna under bakhandduk</div>
         </div>
         <div class="tips">
             <h4>Tips</h4>
-            <ul>
-                <li>För glutenfritt, ersätt vetemjöl med mjölmix och grahamsmjöl med skrädmjöl (eller även detta med
-                    mjölmix).
-                </li>
-                <li>Mjöl och havregryn går att byta ut hur man vill. Prova dig fram.</li>
-                <li>Byt ut tranbär mot aprikoser, russin eller liknande.</li>
-                <li>Toppa med havssalt.</li>
-                <li>Om brödet är för sött, halvera sirapsmängden.</li>
-                <li>Brödet är jättegott med smör när det fortfarande är varmt. (Det tar tid att svalna, så det är
-                    inte
-                    bråttom.)
-                </li>
-                <li>Bikarbonat och bakpulver är inte samma sak. Om du bara har bakpulver måste mängden dubbleras.
-                </li>
-            </ul>
+            <div>För glutenfritt, ersätt vetemjöl med mjölmix och grahamsmjöl med skrädmjöl (eller även detta med
+                mjölmix).
+            </div>
+            <div>Mjöl och havregryn går att byta ut hur man vill. Prova dig fram.</div>
+            <div>Byt ut tranbär mot aprikoser, russin eller liknande.</div>
+            <div>Toppa med havssalt.</div>
+            <div>Om brödet är för sött, halvera sirapsmängden.</div>
+            <div>Brödet är jättegott med smör när det fortfarande är varmt. (Det tar tid att svalna, så det är
+                inte
+                bråttom.)
+            </div>
+            <div>Bikarbonat och bakpulver är inte samma sak. Om du bara har bakpulver måste mängden dubbleras.
+            </div>
         </div>
     </div>
 </body>
 
 <style>
+    @font-face {
+        font-family: Ranade;
+        src: url(fonts/Ranade-Regular.woff2);
+    }
+
     * {
         margin: 0;
         padding: 0;
         display: relative;
+        font-family: Ranade;
     }
 
     ul {
@@ -86,33 +88,39 @@
         grid-template-columns: max-content 1fr;
     }
 
+    body {
+        color: #332200;
+        display: flex;
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+        background: url(lingon.avif);
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
-    .ingredienser,
-    .instruktioner,
-    .tips {
+    #app {
+        display: grid;
+        gap: 2rem 3rem;
+        background-color: #f5f5dccc;
+        padding: 2rem;
+        box-sizing: border-box;
+        border-radius: .3rem;
+    }
+
+    #app>div {
         display: grid;
         gap: 1rem;
         align-content: start;
     }
 
-    body {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        background-color: beige;
-        color: #210;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-    }
-
-    #app {
-        display: grid;
-        gap: 2rem 1rem;
-    }
-
     @media(min-width: 640px) {
+
         #app {
             justify-items: center;
+            margin: 0;
+            grid-template-columns: max-content 1fr;
         }
 
         .header,
