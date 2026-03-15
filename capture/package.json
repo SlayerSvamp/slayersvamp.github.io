@@ -2,7 +2,7 @@
   "name": "capture",
   "version": "1.0.0",
   "description": "A simple **client-side** React app (via CDN + Babel) that stores notes in **localStorage**.",
-  "main": "app.js",
+  "main": "dist/app.js",
   "scripts": {
     "build": "esbuild src/app.tsx --bundle --platform=browser --target=es2020 --outfile=dist/app.js --sourcemap",
     "watch": "esbuild src/app.tsx --bundle --platform=browser --target=es2020 --outfile=dist/app.js --sourcemap --watch",
