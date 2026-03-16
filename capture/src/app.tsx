@@ -18,7 +18,7 @@ type Note = {
   createdAt: number;
 };
 
-const STORAGE_KEY = "adhd-quick-notes";
+const STORAGE_KEY = "capture-notes";
 const CATEGORIES: Array<{ key: CategoryKey; label: string; icon: React.ReactNode }> = [
   { key: "unsorted", label: "Unsorted", icon: <FiFileText /> },
   { key: "now", label: "Now", icon: <FiZap /> },
@@ -186,7 +186,7 @@ function NoteCard({
           onKeyDown={onKeyDown}
           rows={3}
           style={{
-            marginTop: "2rem",
+            marginTop: "0.25rem",
             width: "100%",
             border: "1px solid var(--border)",
             borderRadius: "12px",
@@ -274,7 +274,7 @@ function historyReducer<T>(state: HistoryState<T>, action: HistoryAction<T>): Hi
 
 type ThemeKey = "system" | "light" | "dark" | "browntown";
 
-const THEME_KEY = "adhd-quick-notes-theme";
+const THEME_KEY = "capture-notes-theme";
 
 function getSystemTheme(): "light" | "dark" {
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -690,7 +690,7 @@ function App() {
           <span className="brand__dot">•</span>
           <div>
             <div className="brand__name">Capture</div>
-            <div className="brand__subtitle">Sort thoughts into now / later / never</div>
+            <div className="brand__subtitle">Brain dump notes</div>
           </div>
         </div>
 
@@ -894,8 +894,8 @@ function App() {
       </aside>
 
       <footer className="footer">
-        <span>Notes are saved locally in your browser.</span>
-        <button className="button button--secondary" onClick={clearNever}>
+        <span className="footer__text">Notes are saved locally in your browser.</span>
+        <button className="button button--secondary footer__clear-never-button" onClick={clearNever}>
           Clear Never <FiTrash2 />
         </button>
       </footer>

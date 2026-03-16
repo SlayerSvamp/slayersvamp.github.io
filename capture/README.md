@@ -1,10 +1,10 @@
-# Capture (ADHD-Friendly Post-It Board)
+# Capture - a brain dump board
 
 A simple **client-side** React app (via CDN + Babel) that stores notes in **localStorage**.
 
 ## Features
 
-- Four categories: **Unsorted**, **Now**, **Later**, **Never (Trash)**
+- Four categories: **Unsorted**, **Now**, **Later**, **Never**
 - Drag-and-drop notes between categories
 - Double-click to edit a note
 - Notes persist in the browser (no backend)
@@ -26,4 +26,4 @@ Open `index.html` in your browser.
 ## Notes
 
 - All notes are stored locally; clearing browser storage will remove them.
-- The **Never** column acts as a trash bin; press the **Clear Never (Trash)** button to remove everything in that category.
+- The **Never** column acts as a trash bin; press the **Clear Never** button to remove everything in that category.

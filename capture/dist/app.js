@@ -21864,7 +21864,7 @@
 
   // src/app.tsx
   var import_jsx_runtime = __toESM(require_jsx_runtime());
-  var STORAGE_KEY = "adhd-quick-notes";
+  var STORAGE_KEY = "capture-notes";
   var CATEGORIES = [
     { key: "unsorted", label: "Unsorted", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiFileText, {}) },
     { key: "now", label: "Now", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiZap, {}) },
@@ -22006,7 +22006,7 @@
               onKeyDown,
               rows: 3,
               style: {
-                marginTop: "2rem",
+                marginTop: "0.25rem",
                 width: "100%",
                 border: "1px solid var(--border)",
                 borderRadius: "12px",
@@ -22070,7 +22070,7 @@
         return state;
     }
   }
-  var THEME_KEY = "adhd-quick-notes-theme";
+  var THEME_KEY = "capture-notes-theme";
   function getSystemTheme() {
     return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
@@ -22369,7 +22369,7 @@
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "brand__dot", children: "\u2022" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "brand__name", children: "Capture" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "brand__subtitle", children: "Sort thoughts into now / later / never" })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "brand__subtitle", children: "Brain dump notes" })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "topbar__actions", children: [
@@ -22556,8 +22556,8 @@
         }
       ),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { className: "footer", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Notes are saved locally in your browser." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button--secondary", onClick: clearNever, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "footer__text", children: "Notes are saved locally in your browser." }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button--secondary footer__clear-never-button", onClick: clearNever, children: [
           "Clear Never ",
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiTrash2, {})
         ] })
