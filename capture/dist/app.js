@@ -21758,10 +21758,27 @@
       createdAt: Date.now()
     };
   }
-  function NoteCard({ note, onDelete, onMove, onUpdate, onDragStart }) {
+  function NoteCard({
+    note,
+    onDelete,
+    onMove,
+    onUpdate,
+    onDragStart,
+    onDragOver,
+    onDrop,
+    onDragLeave,
+    onDragEnd,
+    dragHint,
+    isDragging,
+    registerRef
+  }) {
     const [isEditing, setIsEditing] = (0, import_react.useState)(false);
     const [draft, setDraft] = (0, import_react.useState)(note.text);
     const textareaRef = (0, import_react.useRef)(null);
+    const isDragTarget = dragHint?.targetId === note.id;
+    const dragPosition = isDragTarget ? dragHint?.position : void 0;
+    const dropClass = dragPosition ? `note--drop-${dragPosition}` : "";
+    const dragClass = isDragging ? "note--dragging" : "";
     (0, import_react.useEffect)(() => {
       if (!isEditing) {
         setDraft(note.text);
@@ -21795,10 +21812,49 @@
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
       "article",
       {
-        className: `note note--${note.category}`,
+        ref: (el) => registerRef?.(note.id, el),
+        className: `note note--${note.category} ${dropClass} ${dragClass}`,
+        "data-note-id": note.id,
         draggable: true,
         onDragStart: (event) => onDragStart(event, note.id),
+        onDragOver: (event) => {
+          event.preventDefault();
+          onDragOver?.(event, note.id);
+        },
+        onDragLeave: () => onDragLeave?.(note.id),
+        onDrop: (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          const draggedId = event.dataTransfer.getData("text/plain");
+          if (!draggedId || draggedId === note.id) return;
+          const rect = event.currentTarget.getBoundingClientRect();
+          const insertAfter = event.clientY > rect.top + rect.height / 2;
+          onDrop?.(draggedId, note.id, insertAfter ? "after" : "before");
+        },
+        onDragEnd,
         children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "note__topActions", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                className: "note__edit",
+                onClick: () => setIsEditing(true),
+                "aria-label": "Edit note",
+                children: "\u270E"
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                className: "note__delete",
+                onClick: () => onDelete(note.id),
+                "aria-label": "Delete note",
+                children: "\xD7"
+              }
+            )
+          ] }),
           isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "textarea",
             {
@@ -21809,6 +21865,7 @@
               onKeyDown,
               rows: 3,
               style: {
+                marginTop: "2rem",
                 width: "100%",
                 border: "1px solid var(--border)",
                 borderRadius: "12px",
@@ -21821,23 +21878,56 @@
             }
           ) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onDoubleClick: () => setIsEditing(true), children: note.text }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "note__actions", children: [
+            note.category !== "unsorted" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "unsorted"), children: "Unsorted" }),
+            note.category !== "now" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "now"), children: "Now" }),
+            note.category !== "later" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "later"), children: "Later" }),
             note.category !== "never" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "button",
               {
                 type: "button",
                 onClick: () => onMove(note.id, "never"),
-                "aria-label": "Move to trash",
-                children: "Trash"
+                "aria-label": "Move to never",
+                children: "Never"
               }
-            ),
-            note.category !== "now" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "now"), children: "Now" }),
-            note.category !== "later" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "later"), children: "Later" }),
-            note.category !== "unsorted" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onMove(note.id, "unsorted"), children: "Unsorted" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => onDelete(note.id), children: "Delete" })
+            )
           ] })
         ]
       }
     );
+  }
+  function historyReducer(state, action) {
+    switch (action.type) {
+      case "SET": {
+        if (action.value === state.present) return state;
+        const nextPast = [...state.past, state.present];
+        const cappedPast = nextPast.slice(-50);
+        return {
+          past: cappedPast,
+          present: action.value,
+          future: []
+        };
+      }
+      case "UNDO": {
+        if (state.past.length === 0) return state;
+        const previous = state.past[state.past.length - 1];
+        return {
+          past: state.past.slice(0, -1),
+          present: previous,
+          future: [state.present, ...state.future]
+        };
+      }
+      case "REDO": {
+        if (state.future.length === 0) return state;
+        const next = state.future[0];
+        return {
+          past: [...state.past, state.present],
+          present: next,
+          future: state.future.slice(1)
+        };
+      }
+      default:
+        return state;
+    }
   }
   var THEME_KEY = "adhd-quick-notes-theme";
   function getSystemTheme() {
@@ -21850,7 +21940,12 @@
     root.classList.add(`theme-${resolved}`);
   }
   function App() {
-    const [notes, setNotes] = (0, import_react.useState)(() => loadNotes());
+    const [history, dispatchHistory] = (0, import_react.useReducer)(historyReducer, {
+      past: [],
+      present: loadNotes(),
+      future: []
+    });
+    const notes = history.present;
     const [newText, setNewText] = (0, import_react.useState)("");
     const [newCategory, setNewCategory] = (0, import_react.useState)("unsorted");
     const [helpOpen, setHelpOpen] = (0, import_react.useState)(false);
@@ -21860,6 +21955,76 @@
     });
     const [themeDropdownOpen, setThemeDropdownOpen] = (0, import_react.useState)(false);
     const dragOverCategory = (0, import_react.useRef)(null);
+    const [draggingId, setDraggingId] = (0, import_react.useState)(null);
+    const [dragHint, setDragHint] = (0, import_react.useState)(null);
+    const noteRefs = (0, import_react.useRef)(/* @__PURE__ */ new Map());
+    const pendingFlipPositions = (0, import_react.useRef)(null);
+    const registerNoteRef = (id, el) => {
+      if (el) {
+        noteRefs.current.set(id, el);
+      } else {
+        noteRefs.current.delete(id);
+      }
+    };
+    const captureNotePositions = () => {
+      const positions = /* @__PURE__ */ new Map();
+      noteRefs.current.forEach((el, id) => {
+        positions.set(id, el.getBoundingClientRect());
+      });
+      return positions;
+    };
+    const runFlipAnimation = () => {
+      const before = pendingFlipPositions.current;
+      if (!before) return;
+      const after = captureNotePositions();
+      pendingFlipPositions.current = null;
+      after.forEach((newRect, id) => {
+        const oldRect = before.get(id);
+        if (!oldRect) return;
+        const dx = oldRect.left - newRect.left;
+        const dy = oldRect.top - newRect.top;
+        if (dx === 0 && dy === 0) return;
+        const el = noteRefs.current.get(id);
+        if (!el) return;
+        el.style.transition = "transform 300ms cubic-bezier(0.22, 1, 0.36, 1)";
+        el.style.willChange = "transform";
+        el.style.transform = `translate(${dx}px, ${dy}px)`;
+        requestAnimationFrame(() => {
+          el.style.transform = "";
+        });
+        const cleanup = (event) => {
+          if (event.propertyName !== "transform") return;
+          el.style.transition = "";
+          el.style.willChange = "";
+          el.removeEventListener("transitionend", cleanup);
+        };
+        el.addEventListener("transitionend", cleanup);
+      });
+    };
+    (0, import_react.useLayoutEffect)(() => {
+      if (pendingFlipPositions.current) {
+        runFlipAnimation();
+      }
+    });
+    const areNotesEqual = (a, b) => {
+      if (a === b) return true;
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i += 1) {
+        const n1 = a[i];
+        const n2 = b[i];
+        if (n1.id !== n2.id || n1.text !== n2.text || n1.category !== n2.category || n1.createdAt !== n2.createdAt) {
+          return false;
+        }
+      }
+      return true;
+    };
+    const setNotes = (next) => {
+      const nextNotes = typeof next === "function" ? next(notes) : next;
+      if (areNotesEqual(notes, nextNotes)) return;
+      dispatchHistory({ type: "SET", value: nextNotes });
+    };
+    const canUndo = history.past.length > 0;
+    const canRedo = history.future.length > 0;
     (0, import_react.useEffect)(() => {
       saveNotes(notes);
     }, [notes]);
@@ -21889,7 +22054,7 @@
     const onAdd = () => {
       const text = newText.trim();
       if (!text) return;
-      setNotes((prev) => [createNote(text, newCategory), ...prev]);
+      setNotes((prev) => [...prev, createNote(text, newCategory)]);
       setNewText("");
     };
     const onDelete = (noteId) => {
@@ -21901,20 +22066,117 @@
       );
     };
     const moveNote = (noteId, category) => {
-      updateNote(noteId, { category });
+      pendingFlipPositions.current = captureNotePositions();
+      setNotes((prev) => {
+        const noteIndex = prev.findIndex((note2) => note2.id === noteId);
+        if (noteIndex === -1) return prev;
+        const note = prev[noteIndex];
+        const updated = { ...note, category };
+        const without = prev.filter((n) => n.id !== noteId);
+        const lastIndexInCategory = without.reduce(
+          (idx, n, i) => n.category === category ? i : idx,
+          -1
+        );
+        const insertionIndex = lastIndexInCategory + 1;
+        const next = [...without];
+        next.splice(insertionIndex, 0, updated);
+        return next;
+      });
+      setDraggingId(null);
+      setDragHint(null);
     };
+    const reorderNote = (draggedId, targetId, position = "before") => {
+      pendingFlipPositions.current = captureNotePositions();
+      setNotes((prev) => {
+        const dragged = prev.find((note) => note.id === draggedId);
+        const target = prev.find((note) => note.id === targetId);
+        if (!dragged || !target || draggedId === targetId) return prev;
+        const updated = { ...dragged, category: target.category };
+        const without = prev.filter((note) => note.id !== draggedId);
+        const targetIndex = without.findIndex((note) => note.id === targetId);
+        if (targetIndex === -1) return prev;
+        const insertionIndex = targetIndex + (position === "after" ? 1 : 0);
+        const next = [...without];
+        next.splice(insertionIndex, 0, updated);
+        return next;
+      });
+      setDraggingId(null);
+      setDragHint(null);
+    };
+    const clearDragHint = () => setDragHint(null);
     const clearNever = () => {
       setNotes((prev) => prev.filter((note) => note.category !== "never"));
     };
+    const undo = () => dispatchHistory({ type: "UNDO" });
+    const redo = () => dispatchHistory({ type: "REDO" });
+    (0, import_react.useEffect)(() => {
+      const handleKeyDown = (event) => {
+        const target = event.target;
+        const isTextField = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable;
+        if (isTextField) return;
+        const isUndo = event.key.toLowerCase() === "z" && (event.metaKey || event.ctrlKey) && !event.shiftKey;
+        const isRedo = event.key.toLowerCase() === "y" && (event.metaKey || event.ctrlKey) || event.key.toLowerCase() === "z" && (event.metaKey || event.ctrlKey) && event.shiftKey;
+        if (isUndo) {
+          event.preventDefault();
+          if (canUndo) undo();
+        } else if (isRedo) {
+          event.preventDefault();
+          if (canRedo) redo();
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [canUndo, canRedo]);
     const onKeyDown = (event) => {
       if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
         event.preventDefault();
         onAdd();
       }
     };
+    const dragImageRef = (0, import_react.useRef)(null);
     const onDragStart = (event, noteId) => {
       event.dataTransfer.setData("text/plain", noteId);
       event.dataTransfer.effectAllowed = "move";
+      const el = event.currentTarget;
+      const clone = el.cloneNode(true);
+      clone.style.position = "absolute";
+      clone.style.top = "-9999px";
+      clone.style.left = "-9999px";
+      clone.style.width = `${el.offsetWidth}px`;
+      clone.style.height = `${el.offsetHeight}px`;
+      clone.style.pointerEvents = "none";
+      clone.style.margin = "0";
+      document.body.appendChild(clone);
+      event.dataTransfer.setDragImage(clone, 16, 16);
+      dragImageRef.current = clone;
+      requestAnimationFrame(() => {
+        setDraggingId(noteId);
+        setDragHint(null);
+      });
+    };
+    const onDragOverNote = (event, targetId) => {
+      event.preventDefault();
+      if (!draggingId || draggingId === targetId) {
+        setDragHint(null);
+        return;
+      }
+      const rect = event.currentTarget.getBoundingClientRect();
+      const position = event.clientY > rect.top + rect.height / 2 ? "after" : "before";
+      setDragHint({ targetId, position });
+      event.dataTransfer.dropEffect = "move";
+    };
+    const onDragLeaveNote = (targetId) => {
+      if (dragHint?.targetId === targetId) {
+        setDragHint(null);
+      }
+    };
+    const onDragEnd = () => {
+      setDraggingId(null);
+      setDragHint(null);
+      if (dragImageRef.current) {
+        dragImageRef.current.remove();
+        dragImageRef.current = null;
+      }
     };
     const onDragOverColumn = (event, category) => {
       event.preventDefault();
@@ -21925,7 +22187,23 @@
       event.preventDefault();
       const noteId = event.dataTransfer.getData("text/plain");
       if (!noteId) return;
+      const note = notes.find((n) => n.id === noteId);
+      if (note && note.category === category) {
+        setDragHint(null);
+        return;
+      }
+      const element = document.elementFromPoint(event.clientX, event.clientY);
+      const noteElement = element?.closest("article.note");
+      const targetId = noteElement?.dataset?.noteId;
+      if (targetId && targetId !== noteId) {
+        const rect = noteElement.getBoundingClientRect();
+        const insertAfter = event.clientY > rect.top + rect.height / 2;
+        reorderNote(noteId, targetId, insertAfter ? "after" : "before");
+        setDragHint(null);
+        return;
+      }
       moveNote(noteId, category);
+      setDragHint(null);
     };
     const themeOptions = [
       { key: "system", label: "System", emoji: "\u{1F5A5}\uFE0F" },
@@ -22013,22 +22291,26 @@
               "aria-label": "New note text"
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "add-note__meta", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "select",
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "add-note__meta", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "add-note__controls", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "segmented-control", role: "group", "aria-label": "New note category", children: CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
               {
-                value: newCategory,
-                onChange: (e) => setNewCategory(e.target.value),
-                "aria-label": "Category for new note",
-                children: CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: category.key, children: category.label }, category.key))
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "button", onClick: onAdd, children: "Add note" })
-          ] })
+                type: "button",
+                className: `segmented-control__item ${newCategory === category.key ? "segmented-control__item--active" : ""}`,
+                onClick: () => setNewCategory(category.key),
+                "aria-pressed": newCategory === category.key,
+                children: category.label
+              },
+              category.key
+            )) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button--icon", onClick: onAdd, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "+" }),
+              "Add note"
+            ] })
+          ] }) })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", { className: "board", "aria-label": "Notes board", children: CATEGORIES.map((category) => {
           const notesForCategory = (notesByCategory[category.key] || []).slice();
-          const sortedNotes = notesForCategory.sort((a, b) => b.createdAt - a.createdAt);
           return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
             "div",
             {
@@ -22037,11 +22319,8 @@
               onDragOver: (event) => onDragOverColumn(event, category.key),
               onDrop: (event) => onDropInColumn(event, category.key),
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "column__header", children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: category.label }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { className: "column__hint", children: category.key === "unsorted" ? "Quick capture. Move to Now/Later when ready." : category.key === "now" ? "Do these next." : category.key === "later" ? "Save for later, review later." : "Trash bin, can be cleared anytime." })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "column__notes", "data-notes": category.key, children: sortedNotes.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", { className: "column__header", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: category.label }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "column__notes", "data-notes": category.key, children: notesForCategory.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "div",
                   {
                     style: {
@@ -22054,14 +22333,21 @@
                     },
                     children: "Drag a note here or add one."
                   }
-                ) : sortedNotes.map((note) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                ) : notesForCategory.map((note) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   NoteCard,
                   {
                     note,
                     onMove: moveNote,
                     onDelete,
                     onUpdate: updateNote,
-                    onDragStart
+                    onDragStart,
+                    onDragOver: onDragOverNote,
+                    onDragLeave: onDragLeaveNote,
+                    onDragEnd,
+                    onDrop: reorderNote,
+                    dragHint,
+                    isDragging: draggingId === note.id,
+                    registerRef: registerNoteRef
                   },
                   note.id
                 )) })
@@ -22070,6 +22356,32 @@
             category.key
           );
         }) })
+      ] }),
+      (canUndo || canRedo) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "undo-redo", role: "group", "aria-label": "Undo and redo", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            className: "button button--secondary",
+            onClick: undo,
+            disabled: !canUndo,
+            type: "button",
+            "aria-label": "Undo",
+            title: "Undo (\u2318/Ctrl+Z)",
+            children: "\u21B6"
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            className: "button button--secondary",
+            onClick: redo,
+            disabled: !canRedo,
+            type: "button",
+            "aria-label": "Redo",
+            title: "Redo (\u2318/Ctrl+Shift+Z)",
+            children: "\u21B7"
+          }
+        )
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         "aside",
@@ -22082,8 +22394,9 @@
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: "How to use" }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: 'Write a thought, pick a category, and click "Add note".' }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: "Drag notes between columns to re-categorize them." }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: "Use the action buttons or double-click to edit a note." }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: "Drag notes between and within columns to reorder them." }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: "Use the action buttons, the top-right \xD7, or double-click to edit a note." }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: "Use Undo / Redo (buttons or \u2318/Ctrl+Z, \u2318/Ctrl+Shift+Z) to recover accidental changes." }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: 'Notes are stored only in this browser. Clear the "Never" column to free space.' })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(

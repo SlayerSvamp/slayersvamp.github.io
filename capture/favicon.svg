@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Brand dot">
+  <defs>
+    <filter id="drop" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#68b4ff" flood-opacity="0.28" />
+    </filter>
+  </defs>
+
+  <rect width="64" height="64" rx="16" fill="#0b1a2c" />
+  <circle cx="32" cy="32" r="18" fill="#68b4ff" filter="url(#drop)" />
+</svg>
