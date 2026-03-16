@@ -7,6 +7,7 @@ import React, {
   useState,
 } from "react";
 import ReactDOM from "react-dom/client";
+import { FiClock, FiFileText, FiPlus, FiTrash2, FiZap, FiEdit2 } from "react-icons/fi";
 
 type CategoryKey = "unsorted" | "now" | "later" | "never";
 
@@ -18,11 +19,11 @@ type Note = {
 };
 
 const STORAGE_KEY = "adhd-quick-notes";
-const CATEGORIES: Array<{ key: CategoryKey; label: string }> = [
-  { key: "unsorted", label: "Unsorted" },
-  { key: "now", label: "Now" },
-  { key: "later", label: "Later" },
-  { key: "never", label: "Never" },
+const CATEGORIES: Array<{ key: CategoryKey; label: string; icon: React.ReactNode }> = [
+  { key: "unsorted", label: "Unsorted", icon: <FiFileText /> },
+  { key: "now", label: "Now", icon: <FiZap /> },
+  { key: "later", label: "Later", icon: <FiClock /> },
+  { key: "never", label: "Never", icon: <FiTrash2 /> },
 ];
 
 function loadNotes(): Note[] {
@@ -164,7 +165,7 @@ function NoteCard({
           onClick={() => setIsEditing(true)}
           aria-label="Edit note"
         >
-          ✎
+          <FiEdit2 aria-hidden="true" />
         </button>
         <button
           type="button"
@@ -172,7 +173,7 @@ function NoteCard({
           onClick={() => onDelete(note.id)}
           aria-label="Delete note"
         >
-          ×
+          <FiTrash2 aria-hidden="true" />
         </button>
       </div>
 
@@ -769,13 +770,14 @@ function App() {
                     }`}
                     onClick={() => setNewCategory(category.key)}
                     aria-pressed={newCategory === category.key}
+                    aria-label={category.label}
                   >
-                    {category.label}
+                    <span aria-hidden="true">{category.icon}</span>
                   </button>
                 ))}
               </div>
               <button className="button button--icon" onClick={onAdd}>
-                <span aria-hidden="true">+</span>
+                <FiPlus aria-hidden="true" />
                 Add note
               </button>
             </div>
@@ -796,6 +798,7 @@ function App() {
               >
                 <header className="column__header">
                   <h2>{category.label}</h2>
+                  <span className="column__icon" aria-hidden="true">{category.icon}</span>
                 </header>
 
                 <div className="column__notes" data-notes={category.key}>
@@ -893,7 +896,7 @@ function App() {
       <footer className="footer">
         <span>Notes are saved locally in your browser.</span>
         <button className="button button--secondary" onClick={clearNever}>
-          Clear Never (Trash)
+          Clear Never <FiTrash2 />
         </button>
       </footer>
     </>

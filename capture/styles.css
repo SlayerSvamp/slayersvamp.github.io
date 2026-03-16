@@ -326,6 +326,9 @@ body {
   cursor: pointer;
   transition: transform 120ms ease, box-shadow 120ms ease;
   box-shadow: 0 6px 14px var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .button:hover {
@@ -357,6 +360,19 @@ body {
   border-radius: 16px;
   background: var(--surface-strong);
   border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.column__header h2 {
+  margin: 0;
+}
+
+.column__icon {
+  font-size: 1.2rem;
+  opacity: 0.8;
 }
 
 .note {
@@ -510,11 +526,20 @@ body {
   border-radius: 16px;
   background: var(--surface-strong);
   border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .column__header h2 {
   margin: 0;
   font-size: 1.1rem;
+}
+
+.column__icon {
+  font-size: 1.2rem;
+  opacity: 0.8;
 }
 
 .column__notes {

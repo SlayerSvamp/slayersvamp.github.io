@@ -1330,7 +1330,7 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React2 = require_react(), Internals = {
+        var React4 = require_react(), Internals = {
           d: {
             f: noop,
             r: function() {
@@ -1348,7 +1348,7 @@
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -2883,7 +2883,7 @@
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React2.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React4.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -18515,14 +18515,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React2 = require_react(), ReactDOM2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React4 = require_react(), ReactDOM2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -21310,7 +21310,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React2.version;
+          var isomorphicReactPackageVersion = React4.version;
           if ("19.2.4" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.4\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21664,18 +21664,18 @@
         function isValidElement(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
-        var React2 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React2.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var React4 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React4.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React2 = {
+        React4 = {
           react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React2.react_stack_bottom_frame.bind(
-          React2,
+        var unknownOwnerDebugStack = React4.react_stack_bottom_frame.bind(
+          React4,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -21720,15 +21720,156 @@
   });
 
   // src/app.tsx
-  var import_react = __toESM(require_react());
+  var import_react3 = __toESM(require_react());
   var import_client = __toESM(require_client());
+
+  // node_modules/react-icons/lib/iconBase.mjs
+  var import_react2 = __toESM(require_react(), 1);
+
+  // node_modules/react-icons/lib/iconContext.mjs
+  var import_react = __toESM(require_react(), 1);
+  var DefaultContext = {
+    color: void 0,
+    size: void 0,
+    className: void 0,
+    style: void 0,
+    attr: void 0
+  };
+  var IconContext = import_react.default.createContext && /* @__PURE__ */ import_react.default.createContext(DefaultContext);
+
+  // node_modules/react-icons/lib/iconBase.mjs
+  var _excluded = ["attr", "size", "title"];
+  function _objectWithoutProperties(e, t) {
+    if (null == e) return {};
+    var o, r, i = _objectWithoutPropertiesLoose(e, t);
+    if (Object.getOwnPropertySymbols) {
+      var n = Object.getOwnPropertySymbols(e);
+      for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]);
+    }
+    return i;
+  }
+  function _objectWithoutPropertiesLoose(r, e) {
+    if (null == r) return {};
+    var t = {};
+    for (var n in r) if ({}.hasOwnProperty.call(r, n)) {
+      if (-1 !== e.indexOf(n)) continue;
+      t[n] = r[n];
+    }
+    return t;
+  }
+  function _extends() {
+    return _extends = Object.assign ? Object.assign.bind() : function(n) {
+      for (var e = 1; e < arguments.length; e++) {
+        var t = arguments[e];
+        for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
+      }
+      return n;
+    }, _extends.apply(null, arguments);
+  }
+  function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+      var o = Object.getOwnPropertySymbols(e);
+      r && (o = o.filter(function(r2) {
+        return Object.getOwnPropertyDescriptor(e, r2).enumerable;
+      })), t.push.apply(t, o);
+    }
+    return t;
+  }
+  function _objectSpread(e) {
+    for (var r = 1; r < arguments.length; r++) {
+      var t = null != arguments[r] ? arguments[r] : {};
+      r % 2 ? ownKeys(Object(t), true).forEach(function(r2) {
+        _defineProperty(e, r2, t[r2]);
+      }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r2) {
+        Object.defineProperty(e, r2, Object.getOwnPropertyDescriptor(t, r2));
+      });
+    }
+    return e;
+  }
+  function _defineProperty(e, r, t) {
+    return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: true, configurable: true, writable: true }) : e[r] = t, e;
+  }
+  function _toPropertyKey(t) {
+    var i = _toPrimitive(t, "string");
+    return "symbol" == typeof i ? i : i + "";
+  }
+  function _toPrimitive(t, r) {
+    if ("object" != typeof t || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+      var i = e.call(t, r || "default");
+      if ("object" != typeof i) return i;
+      throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+  }
+  function Tree2Element(tree) {
+    return tree && tree.map((node, i) => /* @__PURE__ */ import_react2.default.createElement(node.tag, _objectSpread({
+      key: i
+    }, node.attr), Tree2Element(node.child)));
+  }
+  function GenIcon(data) {
+    return (props) => /* @__PURE__ */ import_react2.default.createElement(IconBase, _extends({
+      attr: _objectSpread({}, data.attr)
+    }, props), Tree2Element(data.child));
+  }
+  function IconBase(props) {
+    var elem = (conf) => {
+      var {
+        attr,
+        size,
+        title
+      } = props, svgProps = _objectWithoutProperties(props, _excluded);
+      var computedSize = size || conf.size || "1em";
+      var className;
+      if (conf.className) className = conf.className;
+      if (props.className) className = (className ? className + " " : "") + props.className;
+      return /* @__PURE__ */ import_react2.default.createElement("svg", _extends({
+        stroke: "currentColor",
+        fill: "currentColor",
+        strokeWidth: "0"
+      }, conf.attr, attr, svgProps, {
+        className,
+        style: _objectSpread(_objectSpread({
+          color: props.color || conf.color
+        }, conf.style), props.style),
+        height: computedSize,
+        width: computedSize,
+        xmlns: "http://www.w3.org/2000/svg"
+      }), title && /* @__PURE__ */ import_react2.default.createElement("title", null, title), props.children);
+    };
+    return IconContext !== void 0 ? /* @__PURE__ */ import_react2.default.createElement(IconContext.Consumer, null, (conf) => elem(conf)) : elem(DefaultContext);
+  }
+
+  // node_modules/react-icons/fi/index.mjs
+  function FiZap(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "polygon", "attr": { "points": "13 2 3 14 12 14 11 22 21 10 12 10 13 2" }, "child": [] }] })(props);
+  }
+  function FiTrash2(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "polyline", "attr": { "points": "3 6 5 6 21 6" }, "child": [] }, { "tag": "path", "attr": { "d": "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" }, "child": [] }, { "tag": "line", "attr": { "x1": "10", "y1": "11", "x2": "10", "y2": "17" }, "child": [] }, { "tag": "line", "attr": { "x1": "14", "y1": "11", "x2": "14", "y2": "17" }, "child": [] }] })(props);
+  }
+  function FiPlus(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "line", "attr": { "x1": "12", "y1": "5", "x2": "12", "y2": "19" }, "child": [] }, { "tag": "line", "attr": { "x1": "5", "y1": "12", "x2": "19", "y2": "12" }, "child": [] }] })(props);
+  }
+  function FiFileText(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "path", "attr": { "d": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" }, "child": [] }, { "tag": "polyline", "attr": { "points": "14 2 14 8 20 8" }, "child": [] }, { "tag": "line", "attr": { "x1": "16", "y1": "13", "x2": "8", "y2": "13" }, "child": [] }, { "tag": "line", "attr": { "x1": "16", "y1": "17", "x2": "8", "y2": "17" }, "child": [] }, { "tag": "polyline", "attr": { "points": "10 9 9 9 8 9" }, "child": [] }] })(props);
+  }
+  function FiEdit2(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "path", "attr": { "d": "M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" }, "child": [] }] })(props);
+  }
+  function FiClock(props) {
+    return GenIcon({ "tag": "svg", "attr": { "viewBox": "0 0 24 24", "fill": "none", "stroke": "currentColor", "strokeWidth": "2", "strokeLinecap": "round", "strokeLinejoin": "round" }, "child": [{ "tag": "circle", "attr": { "cx": "12", "cy": "12", "r": "10" }, "child": [] }, { "tag": "polyline", "attr": { "points": "12 6 12 12 16 14" }, "child": [] }] })(props);
+  }
+
+  // src/app.tsx
   var import_jsx_runtime = __toESM(require_jsx_runtime());
   var STORAGE_KEY = "adhd-quick-notes";
   var CATEGORIES = [
-    { key: "unsorted", label: "Unsorted" },
-    { key: "now", label: "Now" },
-    { key: "later", label: "Later" },
-    { key: "never", label: "Never" }
+    { key: "unsorted", label: "Unsorted", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiFileText, {}) },
+    { key: "now", label: "Now", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiZap, {}) },
+    { key: "later", label: "Later", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiClock, {}) },
+    { key: "never", label: "Never", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiTrash2, {}) }
   ];
   function loadNotes() {
     try {
@@ -21772,19 +21913,19 @@
     isDragging,
     registerRef
   }) {
-    const [isEditing, setIsEditing] = (0, import_react.useState)(false);
-    const [draft, setDraft] = (0, import_react.useState)(note.text);
-    const textareaRef = (0, import_react.useRef)(null);
+    const [isEditing, setIsEditing] = (0, import_react3.useState)(false);
+    const [draft, setDraft] = (0, import_react3.useState)(note.text);
+    const textareaRef = (0, import_react3.useRef)(null);
     const isDragTarget = dragHint?.targetId === note.id;
     const dragPosition = isDragTarget ? dragHint?.position : void 0;
     const dropClass = dragPosition ? `note--drop-${dragPosition}` : "";
     const dragClass = isDragging ? "note--dragging" : "";
-    (0, import_react.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       if (!isEditing) {
         setDraft(note.text);
       }
     }, [isEditing, note.text]);
-    (0, import_react.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       if (isEditing && textareaRef.current) {
         textareaRef.current.focus();
         textareaRef.current.select();
@@ -21841,7 +21982,7 @@
                 className: "note__edit",
                 onClick: () => setIsEditing(true),
                 "aria-label": "Edit note",
-                children: "\u270E"
+                children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiEdit2, { "aria-hidden": "true" })
               }
             ),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -21851,7 +21992,7 @@
                 className: "note__delete",
                 onClick: () => onDelete(note.id),
                 "aria-label": "Delete note",
-                children: "\xD7"
+                children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiTrash2, { "aria-hidden": "true" })
               }
             )
           ] }),
@@ -21940,25 +22081,25 @@
     root.classList.add(`theme-${resolved}`);
   }
   function App() {
-    const [history, dispatchHistory] = (0, import_react.useReducer)(historyReducer, {
+    const [history, dispatchHistory] = (0, import_react3.useReducer)(historyReducer, {
       past: [],
       present: loadNotes(),
       future: []
     });
     const notes = history.present;
-    const [newText, setNewText] = (0, import_react.useState)("");
-    const [newCategory, setNewCategory] = (0, import_react.useState)("unsorted");
-    const [helpOpen, setHelpOpen] = (0, import_react.useState)(false);
-    const [theme, setTheme] = (0, import_react.useState)(() => {
+    const [newText, setNewText] = (0, import_react3.useState)("");
+    const [newCategory, setNewCategory] = (0, import_react3.useState)("unsorted");
+    const [helpOpen, setHelpOpen] = (0, import_react3.useState)(false);
+    const [theme, setTheme] = (0, import_react3.useState)(() => {
       const stored = localStorage.getItem(THEME_KEY);
       return stored ?? "system";
     });
-    const [themeDropdownOpen, setThemeDropdownOpen] = (0, import_react.useState)(false);
-    const dragOverCategory = (0, import_react.useRef)(null);
-    const [draggingId, setDraggingId] = (0, import_react.useState)(null);
-    const [dragHint, setDragHint] = (0, import_react.useState)(null);
-    const noteRefs = (0, import_react.useRef)(/* @__PURE__ */ new Map());
-    const pendingFlipPositions = (0, import_react.useRef)(null);
+    const [themeDropdownOpen, setThemeDropdownOpen] = (0, import_react3.useState)(false);
+    const dragOverCategory = (0, import_react3.useRef)(null);
+    const [draggingId, setDraggingId] = (0, import_react3.useState)(null);
+    const [dragHint, setDragHint] = (0, import_react3.useState)(null);
+    const noteRefs = (0, import_react3.useRef)(/* @__PURE__ */ new Map());
+    const pendingFlipPositions = (0, import_react3.useRef)(null);
     const registerNoteRef = (id, el) => {
       if (el) {
         noteRefs.current.set(id, el);
@@ -22001,7 +22142,7 @@
         el.addEventListener("transitionend", cleanup);
       });
     };
-    (0, import_react.useLayoutEffect)(() => {
+    (0, import_react3.useLayoutEffect)(() => {
       if (pendingFlipPositions.current) {
         runFlipAnimation();
       }
@@ -22025,10 +22166,10 @@
     };
     const canUndo = history.past.length > 0;
     const canRedo = history.future.length > 0;
-    (0, import_react.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       saveNotes(notes);
     }, [notes]);
-    (0, import_react.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       applyTheme(theme);
       localStorage.setItem(THEME_KEY, theme);
       if (theme === "system") {
@@ -22039,7 +22180,7 @@
         };
       }
     }, [theme]);
-    const notesByCategory = (0, import_react.useMemo)(() => {
+    const notesByCategory = (0, import_react3.useMemo)(() => {
       const grouping = {
         unsorted: [],
         now: [],
@@ -22109,7 +22250,7 @@
     };
     const undo = () => dispatchHistory({ type: "UNDO" });
     const redo = () => dispatchHistory({ type: "REDO" });
-    (0, import_react.useEffect)(() => {
+    (0, import_react3.useEffect)(() => {
       const handleKeyDown = (event) => {
         const target = event.target;
         const isTextField = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement || target.isContentEditable;
@@ -22133,7 +22274,7 @@
         onAdd();
       }
     };
-    const dragImageRef = (0, import_react.useRef)(null);
+    const dragImageRef = (0, import_react3.useRef)(null);
     const onDragStart = (event, noteId) => {
       event.dataTransfer.setData("text/plain", noteId);
       event.dataTransfer.effectAllowed = "move";
@@ -22212,8 +22353,8 @@
       { key: "browntown", label: "Browntown", emoji: "\u{1F7E4}" }
     ];
     const currentThemeOption = themeOptions.find((option) => option.key === theme) ?? themeOptions[0];
-    const themeDropdownRef = (0, import_react.useRef)(null);
-    (0, import_react.useEffect)(() => {
+    const themeDropdownRef = (0, import_react3.useRef)(null);
+    (0, import_react3.useEffect)(() => {
       const handleClickOutside = (event) => {
         if (themeDropdownRef.current && !themeDropdownRef.current.contains(event.target)) {
           setThemeDropdownOpen(false);
@@ -22299,12 +22440,13 @@
                 className: `segmented-control__item ${newCategory === category.key ? "segmented-control__item--active" : ""}`,
                 onClick: () => setNewCategory(category.key),
                 "aria-pressed": newCategory === category.key,
-                children: category.label
+                "aria-label": category.label,
+                children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: category.icon })
               },
               category.key
             )) }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button--icon", onClick: onAdd, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { "aria-hidden": "true", children: "+" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiPlus, { "aria-hidden": "true" }),
               "Add note"
             ] })
           ] }) })
@@ -22319,7 +22461,10 @@
               onDragOver: (event) => onDragOverColumn(event, category.key),
               onDrop: (event) => onDropInColumn(event, category.key),
               children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("header", { className: "column__header", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: category.label }) }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("header", { className: "column__header", children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: category.label }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "column__icon", "aria-hidden": "true", children: category.icon })
+                ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "column__notes", "data-notes": category.key, children: notesForCategory.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "div",
                   {
@@ -22412,7 +22557,10 @@
       ),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("footer", { className: "footer", children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Notes are saved locally in your browser." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "button button--secondary", onClick: clearNever, children: "Clear Never (Trash)" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "button button--secondary", onClick: clearNever, children: [
+          "Clear Never ",
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FiTrash2, {})
+        ] })
       ] })
     ] });
   }
